@@ -1,1 +1,1 @@
-# Animaci-n-Para-videojuegos-Grupo-3
+# Animación Para-videojuegos-Grupo-3
