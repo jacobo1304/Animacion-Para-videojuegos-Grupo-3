@@ -60,11 +60,11 @@
         "*.asset": "yaml",
         "*.meta": "yaml",
         "*.prefab": "yaml",
-        "*.unity": "yaml",
+        "*.unity": "yaml"
     },
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
-        "*.sln": "*.csproj",
+        "*.sln": "*.csproj"
     },
-    "dotnet.defaultSolution": "AnimVideojuegos.sln"
+    "dotnet.defaultSolution": "Animaci-n-Para-videojuegos-Grupo-3.sln"
 }
