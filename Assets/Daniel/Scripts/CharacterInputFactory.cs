@@ -1,0 +1,29 @@
+using System;
+
+namespace Clases.scripts
+{
+    public static class CharacterInputFactory
+    {
+        public static ICharacterInput CreateInput(InputType type)
+        {
+            switch (type)
+            {
+                case InputType.Player:
+                    return new PlayerInput();
+                case InputType.Player2:
+                    return new Player2Input();
+                case InputType.Enemy:
+                    return new EnemyInput();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+        }
+
+        public enum InputType
+        {
+            Player,
+            Player2,
+            Enemy
+        }
+    }
+}
