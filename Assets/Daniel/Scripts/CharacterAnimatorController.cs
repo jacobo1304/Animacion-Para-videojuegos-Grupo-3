@@ -6,7 +6,7 @@ namespace Clases.scripts
     public class CharacterAnimatorController : MonoBehaviour
     {
         [SerializeField] private Animator animator;
-        [SerializeField] private CharacterInputFactory.InputType _inputType = CharacterInputFactory.InputType.Player;       
+        [SerializeField] private CharacterInputFactory.InputType _inputType = CharacterInputFactory.InputType.Player;    
         private ICharacterInput _input;
         private CharacterAnimator _characterAnimator;
 
@@ -19,6 +19,12 @@ namespace Clases.scripts
         {
             float speed = _input.GetSpeetInput();
             _characterAnimator.UpdateSpeed(speed);
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Q))
+            {
+                bool current = _characterAnimator.GetDie();
+                _characterAnimator.UpdateDie(!current);
+            }
         }
     }
 }

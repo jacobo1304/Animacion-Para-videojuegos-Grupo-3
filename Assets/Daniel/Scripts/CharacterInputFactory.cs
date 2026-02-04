@@ -10,6 +10,8 @@ namespace Clases.scripts
             {
                 case InputType.Player:
                     return new PlayerInput();
+                case InputType.Player2:
+                    return new Player2Input();
                 case InputType.Enemy:
                     return new EnemyInput();
                 default:
@@ -20,6 +22,7 @@ namespace Clases.scripts
         public enum InputType
         {
             Player,
+            Player2,
             Enemy
         }
     }

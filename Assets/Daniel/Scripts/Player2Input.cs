@@ -1,17 +1,15 @@
 using UnityEngine;
-using UnityEngine.Windows;
 
 namespace Clases.scripts
 {
-    public class EnemyInput : ICharacterInput
+    public class Player2Input : ICharacterInput
     {
-       public float GetSpeetInput()
+        public float GetSpeetInput()
         {
             return new Vector2(
                 UnityEngine.Input.GetAxis("Horizontal"),
                 UnityEngine.Input.GetAxis("Vertical")
             ).magnitude;
         }
-        
     }
 }
