@@ -4,7 +4,7 @@ namespace Clases.scripts
 {
     public class Player2Input : ICharacterInput
     {
-        public float GetSpeetInput()
+        public float GetSpeedInput()
         {
             return new Vector2(
                 UnityEngine.Input.GetAxis("Horizontal"),
