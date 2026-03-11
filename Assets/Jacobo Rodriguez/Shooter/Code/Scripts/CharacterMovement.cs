@@ -21,6 +21,8 @@ public class CharacterMovement : MonoBehaviour, ICharacterComponent
 
    [SerializeField] private float moveSpeed = 5f;
     private float currentMoveSpeed;
+    private float maxSpeedX;
+    private float maxSpeedY;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -71,18 +73,35 @@ public class CharacterMovement : MonoBehaviour, ICharacterComponent
             speedY.TargetValue = 0;
         }
 
+        if (ParentCharacter.IsStealth)
+        {
+            maxSpeedX = 0.3f;
+            maxSpeedY = 0.3f;
+            currentMoveSpeed = moveSpeed / 2f;
+        }
+        else if (ParentCharacter.IsCrouching)
+        {
+            maxSpeedX = 0.8f;
+            maxSpeedY = 0.8f;
+            currentMoveSpeed = moveSpeed / 2f;
+        }
+        else
+        {
+            maxSpeedX = 1f;
+            maxSpeedY = 1f;
+            currentMoveSpeed = moveSpeed;
+        }
+
+        speedX.TargetValue = Mathf.Clamp(speedX.TargetValue, -maxSpeedX, maxSpeedX);
+        speedY.TargetValue = Mathf.Clamp(speedY.TargetValue, -maxSpeedY, maxSpeedY);
+
         speedX.Update();
         speedY.Update();
 
-
-        currentMoveSpeed = ParentCharacter.IsStealth ? 0.3f
-            : ParentCharacter.IsCrouching ? moveSpeed / 2 : moveSpeed;
-        float animMultiplier = ParentCharacter.IsCrouching ? .8f : 1f;
-
         MoveCharacter();
 
-        _animator.SetFloat(_speedXHash, speedX.CurrentValue * animMultiplier);
-        _animator.SetFloat(_speedYHash, speedY.CurrentValue * animMultiplier);
+        _animator.SetFloat(_speedXHash, speedX.CurrentValue);
+        _animator.SetFloat(_speedYHash, speedY.CurrentValue);
 
 
         SolveCharacterRotation();
