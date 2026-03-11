@@ -67,7 +67,7 @@ AnimatorStateMachine:
     m_Position: {x: 360, y: -80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5814380869070674138}
-    m_Position: {x: 287.77515, y: -173.96289, z: 0}
+    m_Position: {x: 330, y: -190, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 5115504245985242368}
@@ -163,7 +163,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Wave
+  m_Name: Emote
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -177,7 +177,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: ab1c82355c64cdb43bb051d878f631ad, type: 3}
+  m_Motion: {fileID: -203655887218126122, guid: d63c147a41306264aa88f1fa1cc5ffde, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -447,7 +447,7 @@ AnimatorController:
   - serializedVersion: 5
     m_Name: UpperBody
     m_StateMachine: {fileID: -6975208131916906961}
-    m_Mask: {fileID: 31900000, guid: 90ccd4852f2b9b94a93cce1816e2dfbb, type: 2}
+    m_Mask: {fileID: 31900000, guid: 272b1511605251e46bf2a5c3daade37d, type: 2}
     m_Motions: []
     m_Behaviours: []
     m_BlendingMode: 1
@@ -459,7 +459,7 @@ AnimatorController:
   - serializedVersion: 5
     m_Name: CrouchLayer
     m_StateMachine: {fileID: 6285242118021024304}
-    m_Mask: {fileID: 31900000, guid: 6e073802b0d97c44aaeb5b734a9f3bdc, type: 2}
+    m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
     m_BlendingMode: 0
@@ -945,7 +945,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 9fbdd1a6d24481a4b8cf77bfeee675bc, type: 3}
+  m_Motion: {fileID: 7400056, guid: 914b09da235eea34ebdc4e71d057e815, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
