@@ -75,7 +75,8 @@ public class CharacterMovement : MonoBehaviour, ICharacterComponent
         speedY.Update();
 
 
-        currentMoveSpeed = ParentCharacter.IsCrouching ? moveSpeed/2 : moveSpeed;
+        currentMoveSpeed = ParentCharacter.IsStealth ? 0.3f
+            : ParentCharacter.IsCrouching ? moveSpeed / 2 : moveSpeed;
         float animMultiplier = ParentCharacter.IsCrouching ? .8f : 1f;
 
         MoveCharacter();

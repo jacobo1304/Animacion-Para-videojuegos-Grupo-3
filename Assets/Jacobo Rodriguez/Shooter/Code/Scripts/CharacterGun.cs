@@ -23,27 +23,24 @@ public class CharacterGun : MonoBehaviour, ICharacterComponent
 
     [Header("Reload")]
     [SerializeField] private float reloadTime = 1.5f;
-    [SerializeField] private bool isReloading;
 
     [SerializeField] private Transform tracerOrigin;
 
-    [SerializeField] private bool isFiring;
     private float _nextShootTime;
 
     public Character ParentCharacter { get; set; }
 
     public void OnFire(InputAction.CallbackContext ctx)
     {
-        if (ctx.started) isFiring = true;
-        if(ctx.canceled) isFiring = false;
-        if(!automatic && ctx.performed) TryShoot();
-
+        if (ctx.started)  ParentCharacter.IsFiring = true;
+        if (ctx.canceled) ParentCharacter.IsFiring = false;
+        if (!automatic && ctx.performed) TryShoot();
     }
 
 
     private void TryShoot()
     {
-         if (isReloading) return;   
+        if (ParentCharacter.IsReloading) return;
         if (requiereAim && (ParentCharacter == null || !ParentCharacter.IsAiming)) return;
         if(Time.time < _nextShootTime) return;
         _nextShootTime = Time.time + 1f / Mathf.Max(1f,fireRate);
@@ -111,25 +108,29 @@ public class CharacterGun : MonoBehaviour, ICharacterComponent
 
     public void OnReload(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed && !isReloading && ParentCharacter != null && ParentCharacter.IsAiming && !isFiring)
+        if (ctx.performed && ParentCharacter != null
+            && !ParentCharacter.IsReloading
+            && !ParentCharacter.IsFiring
+            && !ParentCharacter.IsEmoting)
         {
             StartCoroutine(Reload());
         }
     }
+
     private IEnumerator Reload()
     {
-        isReloading = true;
+        ParentCharacter.IsReloading = true;
 
         if (animator != null)
             animator.SetTrigger("Reload");
 
         yield return new WaitForSeconds(reloadTime);
 
-        isReloading = false;
+        ParentCharacter.IsReloading = false;
     }
 
     private void Update()
     {
-        if(automatic && isFiring) TryShoot();
+        if (automatic && ParentCharacter.IsFiring) TryShoot();
     }
 }
