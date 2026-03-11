@@ -28,7 +28,15 @@ public class CharacterEmote : MonoBehaviour, ICharacterComponent
     {
         if (!ParentCharacter.IsEmoting) return;
 
+        // Combat actions interrupt the emote immediately.
         if (ParentCharacter.IsAiming || ParentCharacter.IsReloading || ParentCharacter.IsFiring)
+        {
+            InterruptEmote();
+            return;
+        }
+
+        // Any movement input interrupts the emote.
+        if (ParentCharacter.MovementInput.magnitude > 0.1f)
             InterruptEmote();
     }
 
@@ -36,15 +44,17 @@ public class CharacterEmote : MonoBehaviour, ICharacterComponent
     {
         if (!ctx.performed) return;
         if (ParentCharacter.IsAiming)    return;
-        if (ParentCharacter.IsEmoting)   return;
         if (ParentCharacter.IsReloading) return;
         if (ParentCharacter.IsFiring)    return;
         if (Time.time < _lastEmoteTime + timeForEmoteAgain) return;
 
+        // Allows re-triggering a new emote even if one is already playing,
+        // as long as the cooldown has elapsed.
         ParentCharacter.IsEmoting = true;
         _lastEmoteTime = Time.time;
+        animator.ResetTrigger("Emote");
         animator.SetTrigger("Emote");
-        Debug.Log("Emote started");
+        Debug.Log(ParentCharacter.IsEmoting ? "Emote re-triggered" : "Emote started");
     }
 
     // Called by Animation Event at the end of the emote clip — clean exit.

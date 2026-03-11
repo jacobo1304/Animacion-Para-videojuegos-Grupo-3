@@ -51,6 +51,8 @@ public class Character : MonoBehaviour
 
     public Transform LockTarget { get => lockTarget;  set => lockTarget=value; }
 
+    public Vector2 MovementInput { get; set; }
+
     private void Awake()
     {
         RegisterComponents();

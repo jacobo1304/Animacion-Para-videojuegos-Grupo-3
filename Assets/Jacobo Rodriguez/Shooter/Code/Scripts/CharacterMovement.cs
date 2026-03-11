@@ -57,11 +57,12 @@ public class CharacterMovement : MonoBehaviour, ICharacterComponent
     }
     public void OnMove(InputAction.CallbackContext ctx)
     {
-        if(ParentCharacter.IsEmoting) return;
         Vector2 inputValue = ctx.ReadValue<Vector2>();
+        ParentCharacter.MovementInput = inputValue;
+
+        if (ParentCharacter.IsEmoting) return;
         speedX.TargetValue = inputValue.x;
         speedY.TargetValue = inputValue.y;
-
     }
 
     private void Update()
