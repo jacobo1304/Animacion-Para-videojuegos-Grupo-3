@@ -1,5 +1,5 @@
 ######################################################################
-# Unity / GameJam .gitattributes (seguro y “universal”)
+# Unity .gitattributes (seguro y “universal”)
 #
 # Objetivo:
 # - Nunca corromper binarios (audio/imagenes/modelos) por EOL.
