@@ -55,6 +55,9 @@ ExportedObj/
 *.opendb
 *.VC.db
 
+# Carpeta de mierda larguisima
+Assets/Jacobo Rodriguez/RPG/Grruzam_SwordAnim/
+
 # Unity3D generated meta files
 *.pidb.meta
 *.pdb.meta
