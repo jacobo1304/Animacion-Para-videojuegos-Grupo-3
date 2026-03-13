@@ -23,11 +23,13 @@ public class CharacterAim : MonoBehaviour, ICharacterComponent
     private bool _inputAimHeld;
     private bool _lastAimWhileChecked;
     private CharacterEquip _characterEquip;
+    private CharacterStealth _characterStealth;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
         _characterEquip = GetComponent<CharacterEquip>();
+        _characterStealth = GetComponent<CharacterStealth>();
         _lastAimWhileChecked = aimWhileChecked;
     }
 
@@ -35,6 +37,9 @@ public class CharacterAim : MonoBehaviour, ICharacterComponent
     {
         if (ParentCharacter == null) return;
         if (!ctx.started && !ctx.canceled || ParentCharacter.IsEmoting) return;
+
+        if (ctx.started && _characterStealth != null)
+            _characterStealth.ForceExitStealth();
 
         if (ctx.started && !ParentCharacter.IsEquipped)
             return;

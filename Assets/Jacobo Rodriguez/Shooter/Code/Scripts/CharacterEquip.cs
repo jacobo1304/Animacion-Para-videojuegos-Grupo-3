@@ -116,4 +116,22 @@ public class CharacterEquip : MonoBehaviour, ICharacterComponent
         if (equippedAimConstraint != null)
             equippedAimConstraint.weight = aiming ? 1f : 0f;
     }
+   public void OnTryEquipWithClick(InputAction.CallbackContext ctx)
+    {
+     if (!ctx.performed)
+            return;
+
+        TratardeEquiparConClick();
+    }
+    void  TratardeEquiparConClick()
+    {
+        if (!_isEquipped)
+        {
+            _isEquipped = true;
+            if (enableDebug)
+                Debug.Log("Equipado con click: ahora equipado=" + _isEquipped);
+
+            ApplyRigWeights();
+        }
+    }
 }

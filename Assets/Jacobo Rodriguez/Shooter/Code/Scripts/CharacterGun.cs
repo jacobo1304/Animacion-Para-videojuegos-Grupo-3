@@ -27,12 +27,27 @@ public class CharacterGun : MonoBehaviour, ICharacterComponent
     [SerializeField] private Transform tracerOrigin;
 
     private float _nextShootTime;
+    private CharacterStealth _characterStealth;
 
     public Character ParentCharacter { get; set; }
 
+    private void Awake()
+    {
+        _characterStealth = GetComponent<CharacterStealth>();
+    }
+
     public void OnFire(InputAction.CallbackContext ctx)
     {
-        if (ctx.started)  ParentCharacter.IsFiring = true;
+        if (ParentCharacter == null)
+            return;
+
+        if (ctx.started)
+        {
+            ParentCharacter.IsFiring = true;
+            if (_characterStealth != null)
+                _characterStealth.ForceExitStealth();
+        }
+
         if (ctx.canceled) ParentCharacter.IsFiring = false;
         if (!automatic && ctx.performed) TryShoot();
     }

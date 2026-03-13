@@ -6,6 +6,7 @@ public class CharacterStealth : MonoBehaviour, ICharacterComponent
     public Character ParentCharacter { get; set; }
 
     private Animator _animator;
+    private CharacterEquip _characterEquip;
     private static readonly int IsStealthHash = Animator.StringToHash("isStealth");
 
     [Header("Animation Layers")]
@@ -15,22 +16,54 @@ public class CharacterStealth : MonoBehaviour, ICharacterComponent
     [Tooltip("Seconds to fade the Stealth layer weight (0 ↔ 1).")]
     [SerializeField] private float stealthLayerFadeTime = 0.12f;
 
+    [Header("UI Warning")]
+    [Tooltip("Optional UI message to fade in/out when stealth is blocked because the rifle is equipped.")]
+    [SerializeField] private CanvasFadeMessage stealthBlockedWarning;
+
     private int _stealthLayerIndex = -1;
     private Coroutine _stealthLayerFadeRoutine;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        _characterEquip = GetComponent<CharacterEquip>();
         if (_animator != null)
             _stealthLayerIndex = _animator.GetLayerIndex(stealthLayerName);
+    }
+
+    private void Update()
+    {
+        if (ParentCharacter == null)
+            return;
+
+        // Trying to aim/fire should exit stealth immediately.
+        if (ParentCharacter.IsStealth && (ParentCharacter.IsAiming || ParentCharacter.IsFiring))
+            SetStealth(false);
     }
 
     public void OnStealth(InputAction.CallbackContext ctx)
     {
         if (ctx.performed)
+        {
+            // Stealth behaves like emote: if weapon is equipped, force unequip first.
+            if (_characterEquip != null)
+                _characterEquip.ForceUnequip();
+
             SetStealth(true);
+        }
         else if (ctx.canceled)
             SetStealth(false);
+    }
+
+    public void ForceExitStealth()
+    {
+        if (ParentCharacter == null)
+            return;
+
+        if (!ParentCharacter.IsStealth)
+            return;
+
+        SetStealth(false);
     }
 
     private void SetStealth(bool value)

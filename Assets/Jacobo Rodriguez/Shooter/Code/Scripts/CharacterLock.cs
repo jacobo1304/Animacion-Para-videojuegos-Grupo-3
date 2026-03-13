@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using Unity.VisualScripting;
 
 public class CharacterLock : MonoBehaviour, ICharacterComponent
 {
@@ -31,15 +32,36 @@ public class CharacterLock : MonoBehaviour, ICharacterComponent
         }
 
         ParentCharacter.LockTarget = FindBestTarget();
+        Debug.Log("Lock toggled. Current target: " + (ParentCharacter.LockTarget != null ? ParentCharacter.LockTarget.name : "None"));
 
     }
 
+     public void OnAutoLock(InputAction.CallbackContext ctx)
+    {
+        if (!ctx.started) return;
+
+        if (ParentCharacter.LockTarget != null)
+        {
+            ParentCharacter.LockTarget = null;
+            return;
+
+        }
+
+        ParentCharacter.LockTarget = FindBestTarget();
+        Debug.Log("Lock toggled. Current target: " + (ParentCharacter.LockTarget != null ? ParentCharacter.LockTarget.name : "None"));
+
+    }
     public void ToggleAutoLock()
     {
         autoLockEnabled = !autoLockEnabled;
 
+        
         lockText.text = autoLockEnabled ? "Desactivar Auto Lock" : "Activar Auto Lock";
-
+        var CanvasFadeMessage = lockText.GetComponent<CanvasFadeMessage>();
+        if (CanvasFadeMessage != null)
+        {
+            CanvasFadeMessage.Show();
+        }
         ParentCharacter.LockTarget = null;
     }
 

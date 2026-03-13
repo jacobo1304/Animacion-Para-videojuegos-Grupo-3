@@ -29,12 +29,14 @@ public class CharacterEmote : MonoBehaviour, ICharacterComponent
     private float _lastEmoteTime = -999f;
     private int _emoteLayerIndex = -1;
     private Coroutine _emoteLayerFadeRoutine;
+    private CharacterMovement _characterMovement;
 
     private static readonly int IsEmotingHash = Animator.StringToHash("isEmoting");
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        _characterMovement = GetComponent<CharacterMovement>();
         if (animator != null)
             _emoteLayerIndex = animator.GetLayerIndex(emoteLayerName);
 
@@ -61,7 +63,7 @@ public class CharacterEmote : MonoBehaviour, ICharacterComponent
 
         // Any movement input interrupts the emote.
         if (ParentCharacter.MovementInput.magnitude > 0.1f)
-            InterruptEmote();
+            InterruptEmote(true);
     }
 
     public void OnEmote(InputAction.CallbackContext ctx)
@@ -110,12 +112,18 @@ public class CharacterEmote : MonoBehaviour, ICharacterComponent
     }
 
     // Called internally when an incompatible action becomes active mid-emote.
-    private void InterruptEmote()
+    private void InterruptEmote(bool interruptedByMovement = false)
     {
         if (ParentCharacter != null)
             ParentCharacter.IsEmoting = false;
         if (animator != null)
             animator.SetBool(IsEmotingHash, false);
+
+        // Important: if movement caused the interruption, immediately push the current input
+        // into CharacterMovement so the character moves right away (no second key press needed).
+        if (interruptedByMovement && ParentCharacter != null && _characterMovement != null)
+            _characterMovement.ApplyMovementInput(ParentCharacter.MovementInput, true);
+
         FadeEmoteLayerWeight(0f);
         if (animator != null)
         {

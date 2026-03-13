@@ -60,9 +60,19 @@ public class CharacterMovement : MonoBehaviour, ICharacterComponent
     public void OnMove(InputAction.CallbackContext ctx)
     {
         Vector2 inputValue = ctx.ReadValue<Vector2>();
+        ApplyMovementInput(inputValue, false);
+    }
+
+    public void ApplyMovementInput(Vector2 inputValue, bool ignoreEmoteLock)
+    {
+        if (ParentCharacter == null)
+            return;
+
         ParentCharacter.MovementInput = inputValue;
 
-        if (ParentCharacter.IsEmoting) return;
+        if (ParentCharacter.IsEmoting && !ignoreEmoteLock)
+            return;
+
         speedX.TargetValue = inputValue.x;
         speedY.TargetValue = inputValue.y;
     }

@@ -8,7 +8,7 @@ public class HitReceiver : MonoBehaviour, IHittable
     public void ApplyHit(HitInfo info)
     {
         if(_animator) _animator.SetTrigger(hitTriggerName);
-
+        Debug.Log($"Hit received at {info.point} with damage {info.damage}");
      
     }
 

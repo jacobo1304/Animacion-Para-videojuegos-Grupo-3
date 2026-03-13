@@ -43,6 +43,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Autolock",
+                    "type": "Button",
+                    "id": "286d4dfc-63b1-4af6-a89a-089c17968fcd",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Fire",
                     "type": "Button",
                     "id": "0b4eac20-fa7b-4ea4-9356-8652133ebfe4",
@@ -218,6 +227,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Lock",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "267402a3-0191-46ba-a975-bf7a5e5032f5",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Autolock",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
