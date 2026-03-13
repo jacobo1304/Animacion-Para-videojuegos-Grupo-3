@@ -14,40 +14,49 @@ public class CharacterAim : MonoBehaviour, ICharacterComponent
     [SerializeField] private FloatDampener aimDampener;
     [SerializeField] private AimConstraint aimConstraint;
 
-    [Header("Weapon")]
-    [SerializeField] private Transform weaponPivot;
-
-    [Header("Sockets")]
-    [SerializeField] private Transform holderSocket;
-    [SerializeField] private Transform rightHandSocket;
-    [SerializeField] private Transform leftHandSocket;
-
-    [Header("Gun Points")]
-    [SerializeField] private Transform gunGrip;
-    [SerializeField] private Transform gunTop;
+    [Header("Debug / Manual Control")]
+    [Tooltip("If checked in inspector, character keeps aiming while it remains checked.")]
+    [SerializeField] private bool aimWhileChecked;
 
     private Animator animator;
     private bool isAiming;
-
-    private static readonly Vector3 holderRotation =
-        new Vector3(82.1f, -180f, -79.3f);
+    private bool _inputAimHeld;
+    private bool _lastAimWhileChecked;
+    private CharacterEquip _characterEquip;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
-    }
-
-    private void Start()
-    {
-    
-        MoveWeaponToHolder();
+        _characterEquip = GetComponent<CharacterEquip>();
+        _lastAimWhileChecked = aimWhileChecked;
     }
 
     public void OnAim(InputAction.CallbackContext ctx)
     {
+        if (ParentCharacter == null) return;
         if (!ctx.started && !ctx.canceled || ParentCharacter.IsEmoting) return;
 
-        isAiming = ctx.started;
+        if (ctx.started && !ParentCharacter.IsEquipped)
+            return;
+
+        if (ctx.started)
+            _inputAimHeld = true;
+        else if (ctx.canceled)
+            _inputAimHeld = false;
+
+        EvaluateAimState();
+    }
+
+    private void EvaluateAimState()
+    {
+        if (ParentCharacter == null)
+            return;
+
+        bool wantsAim = (_inputAimHeld || aimWhileChecked)
+                        && ParentCharacter.IsEquipped
+                        && !ParentCharacter.IsEmoting;
+
+        isAiming = wantsAim;
 
         aimCamera?.gameObject.SetActive(isAiming);
 
@@ -55,59 +64,43 @@ public class CharacterAim : MonoBehaviour, ICharacterComponent
         aimConstraint.enabled = isAiming;
         aimDampener.TargetValue = isAiming ? 1 : 0;
 
-        if (!isAiming)
-        {
-            MoveWeaponToHolder();
-        }
+        if (_characterEquip != null)
+            _characterEquip.OnAimStateChanged(isAiming);
+    }
+
+    public void StopAim()
+    {
+        isAiming = false;
+
+        if (ParentCharacter != null)
+            ParentCharacter.IsAiming = false;
+
+        if (aimCamera != null)
+            aimCamera.gameObject.SetActive(false);
+
+        if (aimConstraint != null)
+            aimConstraint.enabled = false;
+
+        aimDampener.TargetValue = 0f;
+
+        if (_characterEquip != null)
+            _characterEquip.OnAimStateChanged(false);
     }
 
     private void Update()
     {
+        if (aimWhileChecked != _lastAimWhileChecked)
+        {
+            _lastAimWhileChecked = aimWhileChecked;
+            EvaluateAimState();
+        }
+
+        if (ParentCharacter != null && !ParentCharacter.IsEquipped && isAiming)
+            StopAim();
+
         aimDampener.Update();
         aimConstraint.weight = aimDampener.CurrentValue;
 
         animator.SetLayerWeight(1, aimDampener.CurrentValue);
-    }
-
-    private void LateUpdate()
-    {
-        if (isAiming)
-        {
-            AlignWeaponToHands();
-        }
-    }
-
-    void MoveWeaponToHolder()
-    {
-        weaponPivot.SetParent(holderSocket);
-
-        weaponPivot.localPosition = Vector3.zero;
-
-        weaponPivot.localRotation =
-            Quaternion.Euler(holderRotation);
-    }
-
-    void AlignWeaponToHands()
-    {
-        weaponPivot.SetParent(null);
-
-        Vector3 gripToPivot = weaponPivot.position - gunGrip.position;
-
-        weaponPivot.position = rightHandSocket.position + gripToPivot;
-
-        Vector3 gunDir =
-            (gunTop.position - gunGrip.position).normalized;
-
-        Vector3 handsDir =
-            (leftHandSocket.position - rightHandSocket.position).normalized;
-
-        Quaternion rot =
-            Quaternion.FromToRotation(gunDir, handsDir);
-
-        weaponPivot.rotation = rot * weaponPivot.rotation;
-
-     
-        gripToPivot = weaponPivot.position - gunGrip.position;
-        weaponPivot.position = rightHandSocket.position + gripToPivot;
     }
 }

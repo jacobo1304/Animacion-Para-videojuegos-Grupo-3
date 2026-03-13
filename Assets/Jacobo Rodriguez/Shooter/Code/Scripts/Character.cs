@@ -11,6 +11,7 @@ public class Character : MonoBehaviour
     private bool isStealth;
     private bool isReloading;
     private bool isFiring;
+    private bool isEquipped;
     private Transform lockTarget;
 
     public bool IsAiming
@@ -47,6 +48,12 @@ public class Character : MonoBehaviour
     {
         get => isFiring;
         set => isFiring = value;
+    }
+
+    public bool IsEquipped
+    {
+        get => isEquipped;
+        set => isEquipped = value;
     }
 
     public Transform LockTarget { get => lockTarget;  set => lockTarget=value; }

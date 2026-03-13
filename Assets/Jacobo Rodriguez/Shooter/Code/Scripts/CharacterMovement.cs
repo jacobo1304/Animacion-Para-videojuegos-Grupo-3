@@ -21,8 +21,10 @@ public class CharacterMovement : MonoBehaviour, ICharacterComponent
 
    [SerializeField] private float moveSpeed = 5f;
     private float currentMoveSpeed;
-    private float maxSpeedX;
-    private float maxSpeedY;
+    // Commented out: legacy max speed clamping per-axis. We no longer modify animator input values
+    // when stealth/crouch is active; stealth/crouch only affect movement speed (currentMoveSpeed).
+    // private float maxSpeedX;
+    // private float maxSpeedY;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -76,25 +78,27 @@ public class CharacterMovement : MonoBehaviour, ICharacterComponent
 
         if (ParentCharacter.IsStealth)
         {
-            maxSpeedX = 0.3f;
-            maxSpeedY = 0.3f;
-            currentMoveSpeed = moveSpeed / 2f;
+            // maxSpeedX = 0.3f;
+            // maxSpeedY = 0.3f;
+            currentMoveSpeed = moveSpeed / 3f;
         }
         else if (ParentCharacter.IsCrouching)
         {
-            maxSpeedX = 0.8f;
-            maxSpeedY = 0.8f;
+            // maxSpeedX = 0.8f;
+            // maxSpeedY = 0.8f;
             currentMoveSpeed = moveSpeed / 2f;
         }
         else
         {
-            maxSpeedX = 1f;
-            maxSpeedY = 1f;
+            // maxSpeedX = 1f;
+            // maxSpeedY = 1f;
             currentMoveSpeed = moveSpeed;
         }
 
-        speedX.TargetValue = Mathf.Clamp(speedX.TargetValue, -maxSpeedX, maxSpeedX);
-        speedY.TargetValue = Mathf.Clamp(speedY.TargetValue, -maxSpeedY, maxSpeedY);
+        // Commented out: do not modify the input values sent to the animator based on stealth/crouch.
+        // We keep the original input values for animation, and only affect actual movement speed above.
+        // speedX.TargetValue = Mathf.Clamp(speedX.TargetValue, -maxSpeedX, maxSpeedX);
+        // speedY.TargetValue = Mathf.Clamp(speedY.TargetValue, -maxSpeedY, maxSpeedY);
 
         speedX.Update();
         speedY.Update();
