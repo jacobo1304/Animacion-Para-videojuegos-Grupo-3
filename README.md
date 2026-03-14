@@ -132,9 +132,11 @@ Debido a diferencias entre rigs y proporciones, algunos modelos presentan **desa
 
 # Errores Conocidos
 
-## 1. Problema en el hombro al correr con rifle
+## 1. Constraint de las manos es fijo, manos se quedan pegadas al arma y no al revés en mayoría de casos.
 
-Durante la animación de carrera, el **Two Bone IK limita demasiado el brazo**, lo que puede generar rotaciones poco naturales en el hombro.
+El arma no acompaña las manos en la animacion, tiene solo 3 posiciones fijas. En socket, modo normal, y apuntando.
+
+Problema en el hombro al correr con rifle. Durante la animación de carrera, el **Two Bone IK limita demasiado el brazo**, lo que puede generar rotaciones poco naturales en el hombro.
 
 Causa probable:
 
