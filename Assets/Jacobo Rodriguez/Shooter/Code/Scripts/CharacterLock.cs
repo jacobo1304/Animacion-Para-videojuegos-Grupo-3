@@ -47,8 +47,8 @@ public class CharacterLock : MonoBehaviour, ICharacterComponent
 
         }
 
-        ParentCharacter.LockTarget = FindBestTarget();
-        Debug.Log("Lock toggled. Current target: " + (ParentCharacter.LockTarget != null ? ParentCharacter.LockTarget.name : "None"));
+        ToggleAutoLock();
+        Debug.Log("Autolock toggled. Current target: " + (ParentCharacter.LockTarget != null ? ParentCharacter.LockTarget.name : "None"));
 
     }
     public void ToggleAutoLock()
@@ -56,7 +56,7 @@ public class CharacterLock : MonoBehaviour, ICharacterComponent
         autoLockEnabled = !autoLockEnabled;
 
         
-        lockText.text = autoLockEnabled ? "Desactivar Auto Lock" : "Activar Auto Lock";
+        lockText.text = autoLockEnabled ? "Auto Lock activado" : "Auto Lock desactivado";
         var CanvasFadeMessage = lockText.GetComponent<CanvasFadeMessage>();
         if (CanvasFadeMessage != null)
         {

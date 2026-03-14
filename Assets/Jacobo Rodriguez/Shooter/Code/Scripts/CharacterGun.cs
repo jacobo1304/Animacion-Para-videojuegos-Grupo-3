@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using UnityEngine.Animations.Rigging;
 
 public class CharacterGun : MonoBehaviour, ICharacterComponent
 {
@@ -24,16 +25,35 @@ public class CharacterGun : MonoBehaviour, ICharacterComponent
     [Header("Reload")]
     [SerializeField] private float reloadTime = 1.5f;
 
+    [Header("Reload Left Hand Release")]
+    [Tooltip("Optional: Left hand Two Bone IK constraint used while holding the weapon.")]
+    [SerializeField] private TwoBoneIKConstraint leftHandTwoBoneIK;
+    [Tooltip("Weight for the left hand IK while reloading. Keep this at 0 to fully release the hand from the weapon IK target.")]
+    [SerializeField, Range(0f, 1f)] private float leftHandReloadIKWeight = 0f;
+    [Tooltip("Optional: Left hand bone transform to offset while reloading so the hand visibly moves away from the weapon.")]
+    [SerializeField] private Transform leftHandBone;
+    [Tooltip("Local-space position offset applied to the left hand while reloading.")]
+    [SerializeField] private Vector3 leftHandReloadLocalOffset = new Vector3(0f, -0.05f, -0.15f);
+    [Tooltip("Local-space rotation offset (Euler) applied to the left hand while reloading.")]
+    [SerializeField] private Vector3 leftHandReloadLocalEuler = new Vector3(-20f, 0f, 0f);
+    [Tooltip("How fast the left hand offset blends in/out.")]
+    [SerializeField, Min(0f)] private float leftHandReloadBlendSpeed = 10f;
+
     [SerializeField] private Transform tracerOrigin;
 
     private float _nextShootTime;
     private CharacterStealth _characterStealth;
+    private float _defaultLeftHandIKWeight = 1f;
+    private float _leftHandReloadBlend;
 
     public Character ParentCharacter { get; set; }
 
     private void Awake()
     {
         _characterStealth = GetComponent<CharacterStealth>();
+
+        if (leftHandTwoBoneIK != null)
+            _defaultLeftHandIKWeight = leftHandTwoBoneIK.weight;
     }
 
     public void OnFire(InputAction.CallbackContext ctx)
@@ -124,6 +144,7 @@ public class CharacterGun : MonoBehaviour, ICharacterComponent
     public void OnReload(InputAction.CallbackContext ctx)
     {
         if (ctx.performed && ParentCharacter != null
+            && ParentCharacter.IsEquipped
             && !ParentCharacter.IsReloading
             && !ParentCharacter.IsFiring
             && !ParentCharacter.IsEmoting)
@@ -136,16 +157,41 @@ public class CharacterGun : MonoBehaviour, ICharacterComponent
     {
         ParentCharacter.IsReloading = true;
 
+        SetLeftHandIKWeight(leftHandReloadIKWeight);
+
         if (animator != null)
             animator.SetTrigger("Reload");
 
         yield return new WaitForSeconds(reloadTime);
 
         ParentCharacter.IsReloading = false;
+        SetLeftHandIKWeight(_defaultLeftHandIKWeight);
     }
 
     private void Update()
     {
         if (automatic && ParentCharacter.IsFiring) TryShoot();
+    }
+
+    private void LateUpdate()
+    {
+        bool isReloading = ParentCharacter != null && ParentCharacter.IsReloading;
+        float target = isReloading ? 1f : 0f;
+        _leftHandReloadBlend = Mathf.MoveTowards(_leftHandReloadBlend, target, leftHandReloadBlendSpeed * Time.deltaTime);
+
+        if (leftHandBone == null || _leftHandReloadBlend <= 0f)
+            return;
+
+        leftHandBone.localPosition += leftHandReloadLocalOffset * _leftHandReloadBlend;
+        Quaternion reloadOffset = Quaternion.Slerp(Quaternion.identity, Quaternion.Euler(leftHandReloadLocalEuler), _leftHandReloadBlend);
+        leftHandBone.localRotation = leftHandBone.localRotation * reloadOffset;
+    }
+
+    private void SetLeftHandIKWeight(float weight)
+    {
+        if (leftHandTwoBoneIK == null)
+            return;
+
+        leftHandTwoBoneIK.weight = Mathf.Clamp01(weight);
     }
 }
