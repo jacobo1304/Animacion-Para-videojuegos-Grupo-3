@@ -1,4 +1,7 @@
 # Animación Para-videojuegos-Grupo-3
+
+[Video Shooter Funcionando](https://youtu.be/wNiixmJopuQ)
+
 # Sistema de TPS 
 <img width="220" height="260" alt="image" src="https://github.com/user-attachments/assets/5cf0152c-ffff-43f7-b199-cf6396e7009f" />
 
