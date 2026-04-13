@@ -7,7 +7,11 @@ public class CharacterManager : MonoBehaviour
 
     [SerializeField] private int initialCharacterIndex;
 
+    [Header("Character Codes (aligned to slots)")]
+    [SerializeField] private string[] characterCodes = new string[3];
+
     public int CurrentCharacterIndex { get; private set; } = -1;
+    public string CurrentCharacterCode { get; private set; } = string.Empty;
 
     private void Awake()
     {
@@ -40,6 +44,11 @@ public class CharacterManager : MonoBehaviour
 
         nextCharacter.SetActive(true);
         CurrentCharacterIndex = index;
+        // Update current character code from the aligned codes array
+        if (characterCodes != null && index >= 0 && index < characterCodes.Length)
+            CurrentCharacterCode = characterCodes[index] ?? string.Empty;
+        else
+            CurrentCharacterCode = string.Empty;
     }
 
     private void OnValidate()
@@ -73,5 +82,41 @@ public class CharacterManager : MonoBehaviour
                 expanded[i] = characterSlots[i];
             characterSlots = expanded;
         }
+
+        // Ensure characterCodes array is also clamped/expanded to length 3
+        if (characterCodes == null)
+        {
+            characterCodes = new string[3];
+            return;
+        }
+
+        if (characterCodes.Length > 3)
+        {
+            var trimmedCodes = new string[3];
+            for (int i = 0; i < 3; i++)
+                trimmedCodes[i] = characterCodes[i];
+            characterCodes = trimmedCodes;
+        }
+        else if (characterCodes.Length < 3)
+        {
+            var expandedCodes = new string[3];
+            for (int i = 0; i < characterCodes.Length; i++)
+                expandedCodes[i] = characterCodes[i];
+            characterCodes = expandedCodes;
+        }
+    }
+
+    /// <summary>
+    /// Returns the Character component of the currently selected slot, or null.
+    /// </summary>
+    public Character GetCurrentCharacter()
+    {
+        if (CurrentCharacterIndex >= 0 && CurrentCharacterIndex < characterSlots.Length)
+        {
+            var go = characterSlots[CurrentCharacterIndex];
+            if (go != null)
+                return go.GetComponent<Character>();
+        }
+        return null;
     }
 }

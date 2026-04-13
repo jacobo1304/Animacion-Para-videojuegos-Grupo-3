@@ -1,0 +1,55 @@
+{
+    "version": 1,
+    "name": "ARPG",
+    "maps": [
+        {
+            "name": "CharacterARPG",
+            "id": "995ebab4-9334-445f-a95f-1ee70f6313c5",
+            "actions": [
+                {
+                    "name": "HeavyAttacks",
+                    "type": "Button",
+                    "id": "a8f8ee8b-6692-4a5d-9672-b5e6226f65b2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LightAttacks",
+                    "type": "Button",
+                    "id": "ebd30baa-2063-4c5f-b1b0-2a90948a2aea",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "7279386b-e0c9-4c1c-8588-3015c22f5eae",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HeavyAttacks",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "195c5eca-d0ca-4028-b6f9-b8d5611b198d",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LightAttacks",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

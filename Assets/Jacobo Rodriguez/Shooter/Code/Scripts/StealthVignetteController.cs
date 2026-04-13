@@ -8,7 +8,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class StealthVignetteController : MonoBehaviour
 {
-    [SerializeField] private Character character;
+    [SerializeField] private CharacterManager characterManager;
 
     [Tooltip("Max vignette intensity when stealth is active (0–1).")]
     [SerializeField] private float stealthIntensity = 0.85f;
@@ -31,7 +31,8 @@ public class StealthVignetteController : MonoBehaviour
 
     private void Update()
     {
-        float target  = character.IsStealth ? stealthIntensity : 0f;
+        Character activeCharacter = characterManager != null ? characterManager.GetCurrentCharacter() : null;
+        float target = (activeCharacter != null && activeCharacter.IsStealth) ? stealthIntensity : 0f;
         float current = _material.GetFloat(IntensityProp);
         float next    = Mathf.MoveTowards(current, target, transitionSpeed * Time.deltaTime);
         _material.SetFloat(IntensityProp, next);
