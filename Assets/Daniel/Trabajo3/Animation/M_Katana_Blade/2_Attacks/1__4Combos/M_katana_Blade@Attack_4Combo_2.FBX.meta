@@ -531,7 +531,21 @@ ModelImporter:
           preInfinity: 3
           postInfinity: 3
           rotationOrder: 4
-      events: []
+      events:
+      - time: 0.29909915
+        functionName: toggleAttackHitBox
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.56962013
+        functionName: toggleAttackHitBox
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
@@ -937,7 +951,21 @@ ModelImporter:
           preInfinity: 3
           postInfinity: 3
           rotationOrder: 4
-      events: []
+      events:
+      - time: 0.17179026
+        functionName: toggleAttackHitBox
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.38155514
+        functionName: toggleAttackHitBox
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1

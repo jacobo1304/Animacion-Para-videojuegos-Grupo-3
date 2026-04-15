@@ -1089,7 +1089,21 @@ ModelImporter:
           preInfinity: 2
           postInfinity: 2
           rotationOrder: 4
-      events: []
+      events:
+      - time: 0.32792792
+        functionName: toggleAttackHitBox
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.59132
+        functionName: toggleAttackHitBox
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
