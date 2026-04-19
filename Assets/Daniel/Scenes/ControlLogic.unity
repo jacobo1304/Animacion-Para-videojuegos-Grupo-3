@@ -180,7 +180,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 1.27
   m_Depth: -1
   m_CullingMask:
@@ -205,13 +205,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 12573205}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.15826727, y: -0.37208998, z: 0.064549126, w: 0.91232336}
-  m_LocalPosition: {x: 1.45, y: 1.786, z: -1.48}
+  m_LocalRotation: {x: 0.28496298, y: 2.5465852e-11, z: -9.322321e-11, w: 0.9585386}
+  m_LocalPosition: {x: 0, y: 2.56, z: -1.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1389272896}
-  m_LocalEulerAnglesHint: {x: 19.683, y: -44.376, z: 0}
+  m_LocalEulerAnglesHint: {x: 33.113, y: 0, z: 0}
 --- !u!114 &12573209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5968,6 +5968,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100110, guid: 43992d4f16e57574fa5d16ef485c0cbd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1943011846}
+    - targetCorrespondingSourceObject: {fileID: 100110, guid: 43992d4f16e57574fa5d16ef485c0cbd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1943011847}
   m_SourcePrefab: {fileID: 100100000, guid: 43992d4f16e57574fa5d16ef485c0cbd, type: 3}
 --- !u!4 &1389272896 stripped
 Transform:
@@ -6110,6 +6113,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lightCost: 15
   heavyCost: 35
+  movementCharacter: {fileID: 0}
+  minAttackFacingInput: 0.1
+  attackRotationSpeed: 12
+  canMoveParam: CanMove
+  canAttackParam: CanAttack
+  lightAttackTrigger: Attack
+  lightAttackBufferTime: 0.2
+  maxBufferedLightAttacks: 2
 --- !u!114 &1943011840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6259,6 +6270,24 @@ MonoBehaviour:
   animator: {fileID: 1943011845}
   movementAction: {fileID: -4442291975457288150, guid: 51b1e89e45d9edb43b09d9d378c99780, type: 3}
   canMoveParam: CanMove
+  deadzoneEnter: 0.15
+  deadzoneExit: 0.25
+  animatorDampTime: 0.12
+--- !u!114 &1943011847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1943011837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbdf21ffa0725164fbf43fd5947564b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetCamera: {fileID: 12573207}
+  defaultFov: 60
+  useUnscaledTime: 0
 --- !u!4 &2029897896 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400026, guid: 43992d4f16e57574fa5d16ef485c0cbd, type: 3}

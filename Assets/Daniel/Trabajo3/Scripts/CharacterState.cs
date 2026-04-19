@@ -4,7 +4,7 @@ using UnityEngine;
 public class CharacterState : MonoBehaviour
 {
     //Stamina del personaje
-   [SerializeField] private float _startStamina = 100f;
+   [SerializeField] private float _startStamina = 100000000000f;
    [SerializeField] private float _staminaRegen= 0f;
    [SerializeField] private float _currentStamina = 100f;
 

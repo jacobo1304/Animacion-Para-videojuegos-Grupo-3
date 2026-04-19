@@ -8,11 +8,19 @@ public class MovementCharacter : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private InputActionReference movementAction;
     [SerializeField] private string canMoveParam = "CanMove";
+    [SerializeField] private float deadzoneEnter = 0.15f;
+    [SerializeField] private float deadzoneExit = 0.25f;
+    [SerializeField] private float animatorDampTime = 0.12f;
 
     private Rigidbody rb;
     private Vector3 direction;
     private float inputX;
     private float inputY;
+    private bool inDeadzoneX = true;
+    private bool inDeadzoneY = true;
+    private Vector3 lastFacingDirection = Vector3.forward;
+
+    public Vector3 LastFacingDirection => lastFacingDirection;
 
     private void Awake()
     {
@@ -61,20 +69,57 @@ public class MovementCharacter : MonoBehaviour
             inputX = 0f;
             inputY = 0f;
         }
+        else
+        {
+            inputX = ApplyHysteresis(inputX, ref inDeadzoneX, deadzoneEnter, deadzoneExit);
+            inputY = ApplyHysteresis(inputY, ref inDeadzoneY, deadzoneEnter, deadzoneExit);
+        }
 
-        Vector3 input = new Vector3(inputX, 0f, inputY);
-        direction = input.sqrMagnitude > 1f ? input.normalized : input;
+        Vector3 inputLocal = new Vector3(inputX, 0f, inputY);
+        Vector3 inputNormalized = inputLocal.sqrMagnitude > 1f ? inputLocal.normalized : inputLocal;
+        direction = transform.TransformDirection(inputNormalized);
+        if (direction.sqrMagnitude > 0.0001f)
+        {
+            lastFacingDirection = direction.normalized;
+        }
 
         if (animator != null)
         {
-            animator.SetFloat("horizontal", inputX);
-            animator.SetFloat("vertical", inputY);
+            animator.SetFloat("horizontal", inputX, animatorDampTime, Time.deltaTime);
+            animator.SetFloat("vertical", inputY, animatorDampTime, Time.deltaTime);
 
             if (direction.sqrMagnitude > 0f && canMove)
             {
                 animator.SetTrigger("Move");
             }
         }
+    }
+
+    private static float ApplyHysteresis(float value, ref bool inDeadzone, float enter, float exit)
+    {
+        float abs = Mathf.Abs(value);
+
+        if (inDeadzone)
+        {
+            if (abs > exit)
+            {
+                inDeadzone = false;
+            }
+            else
+            {
+                return 0f;
+            }
+        }
+        else
+        {
+            if (abs < enter)
+            {
+                inDeadzone = true;
+                return 0f;
+            }
+        }
+
+        return value;
     }
 
     private void FixedUpdate()
