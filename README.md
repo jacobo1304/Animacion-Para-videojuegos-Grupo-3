@@ -204,23 +204,44 @@ Unequip → Mano izquierda → Holder de espalda
 
 <details>
 <summary>Trabajo3</summary>
-    ### - Descripción.
-  > Se realizo los elementos necesarios para la entrega, se pueden ver en el video. Un movimiento suave en transciiones de caminar, para el movimiento del personaje. Eleccion de animaciones para movimiento y su respectiva rotacion para cuando se realize un atauqem donde al spamear no pasa rapido entre ataque si no se requiere esperar, un buffer.
-    ### - Criterios de Diseño.
-  > Maneja un limitacion de movimientos de 4 direcciones, sin embargo con el blendtree se de forma suave las diagonales, sin necesidad de tener las diagonales con una animacion especifica. Uso de behavious para el buffer y el acercamiento y alejamiento de camaras para los ataques.
-    ### - Lista de secuencias elegida y como verificarla
-  > Se usan las secuencias de la clase, se pueden comprobar segun el animator. Donde existe una prioridad al heavy attack que el light attack.
-    ### - Limitaciones.
-  > Hay un pequeño bug al spamear el en el ataque 3 y 4, donde las animaciones se activan rapido.
-   ### - Animator
-  
-   <img height="200" alt="image" src="https://github.com/user-attachments/assets/662dad6b-d192-49b5-b360-76e373611f31" /> <img height="200" alt="image" src="https://github.com/user-attachments/assets/2ac98a3a-b8a1-408d-a3bf-b2481c0dd77c" /> <img height="200" alt="image" src="https://github.com/user-attachments/assets/52aae4cf-5c01-41f7-9bdf-8d5276acb459" />
-   
-   - Behaviours en los Ataques:
-   <img height="200" alt="image" src="https://github.com/user-attachments/assets/61ec1f69-6bdd-46ca-8bcd-12c04afe6e42" />
 
- 
+### Descripción
+> Se implementaron los elementos necesarios para la entrega, los cuales pueden observarse en el video adjunto.  
+> Se logró un movimiento fluido en las transiciones entre estados de caminata para el desplazamiento del personaje.  
+> Además, se realizó una correcta selección de animaciones de movimiento junto con su respectiva rotación.  
+> Para los ataques, se implementó un sistema que evita el “spam” inmediato, requiriendo un tiempo de espera entre acciones mediante el uso de un *input buffer*.
 
+---
 
+### Criterios de Diseño
+> Se estableció una limitación a 4 direcciones principales de movimiento. Sin embargo, mediante el uso de un *Blend Tree*, se logran transiciones suaves que simulan diagonales sin necesidad de animaciones específicas para estas.  
+>  
+> Se utilizaron *State Machine Behaviours* para gestionar el *input buffer*, así como para controlar efectos adicionales como el acercamiento y alejamiento de cámara durante los ataques, mejorando el feedback visual.
+
+---
+
+### Lista de secuencias elegidas y cómo verificarlas
+> Se implementaron las secuencias vistas en clase, las cuales pueden verificarse directamente en el *Animator*.  
+>  
+> Existe una jerarquía de prioridades en los ataques, donde el *heavy attack* tiene precedencia sobre el *light attack* en caso de conflicto de inputs.
+
+---
+
+### Limitaciones
+> Se presenta un pequeño bug al realizar *spam* en los ataques 3 y 4, donde las animaciones pueden activarse más rápido de lo esperado.
+
+---
+
+### Animator
+
+<img height="200" alt="Animator 1" src="https://github.com/user-attachments/assets/662dad6b-d192-49b5-b360-76e373611f31" />
+<img height="200" alt="Animator 2" src="https://github.com/user-attachments/assets/2ac98a3a-b8a1-408d-a3bf-b2481c0dd77c" />
+<img height="200" alt="Animator 3" src="https://github.com/user-attachments/assets/52aae4cf-5c01-41f7-9bdf-8d5276acb459" />
+
+---
+
+### Behaviours en los ataques
+
+<img height="200" alt="Behaviours" src="https://github.com/user-attachments/assets/61ec1f69-6bdd-46ca-8bcd-12c04afe6e42" />
 
 </details> 
