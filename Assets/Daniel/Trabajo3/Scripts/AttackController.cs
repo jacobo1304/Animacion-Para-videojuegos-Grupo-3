@@ -14,13 +14,19 @@ public class AttackController : MonoBehaviour
     [SerializeField] private string canMoveParam = "CanMove";
     [SerializeField] private string canAttackParam = "CanAttack";
     [SerializeField] private string lightAttackTrigger = "Attack";
+    [SerializeField] private string heavyAttackTrigger = "HeavyAttack";
     [SerializeField] private float lightAttackBufferTime = 0.2f;
     [SerializeField] private int maxBufferedLightAttacks = 2;
+    [SerializeField] private float inputPriorityWindow = 0.05f;
 
     private bool isRotatingToAttack;
     private Quaternion targetAttackRotation;
     private int bufferedLightAttackCount;
     private float bufferedLightAttackAt;
+    private bool pendingLightInput;
+    private float pendingLightInputAt;
+    private bool pendingHeavyInput;
+    private float pendingHeavyInputAt;
 
     private void Awake()
     {
@@ -34,6 +40,7 @@ public class AttackController : MonoBehaviour
 
     private void Update()
     {
+        ResolveAttackInputs();
         TryConsumeLightAttackBuffer();
         if (!isRotatingToAttack)
         {
@@ -53,7 +60,8 @@ public class AttackController : MonoBehaviour
     {
         if (context.performed)
         {
-            QueueOrExecuteLightAttack();
+            pendingLightInput = true;
+            pendingLightInputAt = Time.time;
         }
         
     }
@@ -61,11 +69,8 @@ public class AttackController : MonoBehaviour
     {
         if (context.performed)
         {
-            if (Game.Instance.PlayerOne.DepleteStamina(heavyCost))
-            {
-                FaceAttackDirection();
-                animator.SetTrigger("HeavyAttack");
-            }
+            pendingHeavyInput = true;
+            pendingHeavyInputAt = Time.time;
         }
     }
 
@@ -151,6 +156,37 @@ public class AttackController : MonoBehaviour
         bufferedLightAttackCount = Mathf.Max(0, bufferedLightAttackCount - 1);
     }
 
+    private void ResolveAttackInputs()
+    {
+        if (!pendingLightInput && !pendingHeavyInput)
+        {
+            return;
+        }
+
+        bool simultaneousInputs = pendingLightInput && pendingHeavyInput
+            && Mathf.Abs(pendingLightInputAt - pendingHeavyInputAt) <= inputPriorityWindow;
+
+        if (pendingHeavyInput)
+        {
+            TryExecuteHeavyAttack();
+            pendingHeavyInput = false;
+        }
+
+        if (pendingLightInput)
+        {
+            if (simultaneousInputs)
+            {
+                BufferLightAttackOnly();
+            }
+            else
+            {
+                QueueOrExecuteLightAttack();
+            }
+
+            pendingLightInput = false;
+        }
+    }
+
     private bool CanAttackNow()
     {
         if (animator == null)
@@ -190,6 +226,31 @@ public class AttackController : MonoBehaviour
 
         FaceAttackDirection();
         animator.SetTrigger(lightAttackTrigger);
+    }
+
+    private void TryExecuteHeavyAttack()
+    {
+        if (!Game.Instance.PlayerOne.DepleteStamina(heavyCost))
+        {
+            return;
+        }
+
+        FaceAttackDirection();
+        animator.SetTrigger(heavyAttackTrigger);
+    }
+
+    private void BufferLightAttackOnly()
+    {
+        if (!CanBufferAttackNow())
+        {
+            return;
+        }
+
+        if (bufferedLightAttackCount < maxBufferedLightAttacks)
+        {
+            bufferedLightAttackCount++;
+        }
+        bufferedLightAttackAt = Time.time;
     }
 
 
