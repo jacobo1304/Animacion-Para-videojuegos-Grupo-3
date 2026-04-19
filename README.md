@@ -204,6 +204,7 @@ Unequip → Mano izquierda → Holder de espalda
 
 <details>
 <summary>Trabajo3</summary>
+  
 > Se encuentra el trabajo en la rama Daniel, en la escena: C:\Archivos\AnimVideojuegos\Animaci-n-Para-videojuegos-Grupo-3\Assets\Daniel\Scenes\ControlLogic
 
 ### Descripción
