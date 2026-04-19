@@ -199,3 +199,28 @@ Equip → EquipActionConstraint → Mano derecha
 Unequip → Mano izquierda → Holder de espalda
 
 </details> 
+
+## Trabajo3
+
+<details>
+<summary>Trabajo3</summary>
+    ### - Descripción.
+  > Se realizo los elementos necesarios para la entrega, se pueden ver en el video. Un movimiento suave en transciiones de caminar, para el movimiento del personaje. Eleccion de animaciones para movimiento y su respectiva rotacion para cuando se realize un atauqem donde al spamear no pasa rapido entre ataque si no se requiere esperar, un buffer.
+    ### - Criterios de Diseño.
+  > Maneja un limitacion de movimientos de 4 direcciones, sin embargo con el blendtree se de forma suave las diagonales, sin necesidad de tener las diagonales con una animacion especifica. Uso de behavious para el buffer y el acercamiento y alejamiento de camaras para los ataques.
+    ### - Lista de secuencias elegida y como verificarla
+  > Se usan las secuencias de la clase, se pueden comprobar segun el animator. Donde existe una prioridad al heavy attack que el light attack.
+    ### - Limitaciones.
+  > Hay un pequeño bug al spamear el en el ataque 3 y 4, donde las animaciones se activan rapido.
+   ### - Animator
+  
+   <img height="200" alt="image" src="https://github.com/user-attachments/assets/662dad6b-d192-49b5-b360-76e373611f31" /> <img height="200" alt="image" src="https://github.com/user-attachments/assets/2ac98a3a-b8a1-408d-a3bf-b2481c0dd77c" /> <img height="200" alt="image" src="https://github.com/user-attachments/assets/52aae4cf-5c01-41f7-9bdf-8d5276acb459" />
+   
+   - Behaviours en los Ataques:
+   <img height="200" alt="image" src="https://github.com/user-attachments/assets/61ec1f69-6bdd-46ca-8bcd-12c04afe6e42" />
+
+ 
+
+
+
+</details> 
