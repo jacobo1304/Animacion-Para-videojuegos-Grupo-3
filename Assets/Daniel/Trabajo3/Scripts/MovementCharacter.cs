@@ -19,6 +19,7 @@ public class MovementCharacter : MonoBehaviour
     private bool inDeadzoneX = true;
     private bool inDeadzoneY = true;
     private Vector3 lastFacingDirection = Vector3.forward;
+    [SerializeField] private Transform facingRoot;
 
     public Vector3 LastFacingDirection => lastFacingDirection;
 
@@ -28,6 +29,11 @@ public class MovementCharacter : MonoBehaviour
         if (animator == null)
         {
             animator = GetComponentInChildren<Animator>();
+        }
+
+        if (facingRoot == null)
+        {
+            facingRoot = animator != null ? animator.transform : transform;
         }
     }
 
@@ -77,7 +83,7 @@ public class MovementCharacter : MonoBehaviour
 
         Vector3 inputLocal = new Vector3(inputX, 0f, inputY);
         Vector3 inputNormalized = inputLocal.sqrMagnitude > 1f ? inputLocal.normalized : inputLocal;
-        direction = transform.TransformDirection(inputNormalized);
+        direction = facingRoot.TransformDirection(inputNormalized);
         if (direction.sqrMagnitude > 0.0001f)
         {
             lastFacingDirection = direction.normalized;

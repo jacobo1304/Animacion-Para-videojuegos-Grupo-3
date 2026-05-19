@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2991dfd90152b7146a8d3b036793aa6b, type: 3}
+  m_Name: DefaultCombo
+  m_EditorClassIdentifier: 
+  steps:
+  - animatorTrigger: Attack
+    chainWindowStart: 0.4
+    chainWindowEnd: 0.8
+    minDistance: 0.5
+    maxDistance: 2.2
+  - animatorTrigger: HeavyAttack
+    chainWindowStart: 0.4
+    chainWindowEnd: 0.8
+    minDistance: 0.5
+    maxDistance: 2.2
+  cooldownAfterCombo: 0.8
+  loopLastStepIfHolding: 0

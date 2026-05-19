@@ -37,7 +37,7 @@ using UnityEngine.Animations;
             foreach(DamageMessage message in damageList)
             {
                 Game.Instance.PlayerOne.DepleteHealth(message.amount, out isDead);
-                damageDirection += (message.sender.transform.position - transform.position).normalized;
+                damageDirection += (message.sender.transform.position-transform.position).normalized;
                 damageLevel = Mathf.Max(damageLevel, (int)message.damageLevel);
             }
 
@@ -45,7 +45,7 @@ using UnityEngine.Animations;
             damageDirection = Vector3.ProjectOnPlane(vector:damageDirection.normalized, planeNormal:transform.up);
             float damageAngle = Vector3.SignedAngle(transform.forward, damageDirection, axis:transform.up);
 
-            animator.SetFloat("DamageDirection",(damageAngle/180)*0.5f+0.5f);
+            animator.SetFloat("DamageDirection", (damageAngle / 180) * 0.5f + 0.5f);
             animator.SetInteger(name:"DamageLevel",damageLevel);
             animator.SetTrigger(name: "Damage");
 
@@ -56,6 +56,7 @@ using UnityEngine.Animations;
             }
             
             var attacker = damageList[0].sender.transform;
+            GetComponent<HitTargetFollower>()?.Moveto(lastHitPoint, attacker, pulse: 0.18f);
             damageList.Clear();
 
         

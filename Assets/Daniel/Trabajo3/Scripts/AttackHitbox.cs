@@ -16,6 +16,8 @@ public class AttackHitbox : MonoBehaviour, IDamageSender<DamageMessage>
     public void SendDamage(IDamageReceiver<DamageMessage> receiver)
     {
         receiver.ReceiveDamage(damageMessage);
+        float extra = 0.02f*(int)damageMessage.damageLevel;
+        GetComponent<HitStopper>()?.HitStop(duration:0.02f+extra);
     }
 
 }
