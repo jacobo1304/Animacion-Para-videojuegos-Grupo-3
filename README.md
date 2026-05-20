@@ -263,10 +263,10 @@ Unequip → Mano izquierda → Holder de espalda
 
 ### Controles.
 
-WASD → Movimiento del personaje.
-Mover Camara → Por medio de ataques
-Click izquierdo → Ataque ligero.
-Click derecho → Ataque pesado.
+- WASD → Movimiento del personaje.
+- Mover Camara → Por medio de ataques
+- Click izquierdo → Ataque ligero.
+- Click derecho → Ataque pesado.
 
 ### Tipos de enemigos.
 
