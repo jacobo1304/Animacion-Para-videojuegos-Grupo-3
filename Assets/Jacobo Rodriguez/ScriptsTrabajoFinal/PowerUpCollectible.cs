@@ -7,6 +7,9 @@ public class PowerUpCollectible : MonoBehaviour
     [SerializeField] private float duration = 6f;
     [SerializeField] private GameObject effectObject;
     [SerializeField] private bool destroyOnPickup = true;
+    [Header("Audio")]
+    [SerializeField] private AudioClip pickupSound;
+    [SerializeField] private AudioSource audioSource;
 
     private void Reset()
     {
@@ -14,6 +17,11 @@ public class PowerUpCollectible : MonoBehaviour
         if (col != null)
         {
             col.isTrigger = true;
+        }
+
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
         }
     }
 
@@ -23,6 +31,23 @@ public class PowerUpCollectible : MonoBehaviour
         if (manager == null)
         {
             return;
+        }
+
+        if (pickupSound != null)
+        {
+            if (audioSource == null)
+            {
+                audioSource = GetComponent<AudioSource>();
+            }
+
+            if (audioSource != null)
+            {
+                audioSource.PlayOneShot(pickupSound);
+            }
+            else
+            {
+                AudioSource.PlayClipAtPoint(pickupSound, transform.position);
+            }
         }
 
         manager.ApplyPowerUp(powerUpType, duration, effectObject);
