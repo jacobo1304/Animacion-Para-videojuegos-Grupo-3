@@ -279,6 +279,20 @@ Unequip → Mano izquierda → Holder de espalda
    - Mucha vida
    - Ataques lentos pero fuertes
 
+### Oleadas
+<img width="400" src="https://github.com/user-attachments/assets/02839b19-feb9-40ab-9d79-2576eed58d17" />
+
+### PowerUp
+- Banana (Escudo): Invulnerable del daño
+<img width="400" alt="Powerup1" src="https://github.com/user-attachments/assets/ec1a66dc-35fa-46a1-b59f-5f486804cf94" />
+<img width="400" alt="codigo" src="https://github.com/user-attachments/assets/c3e037a2-7b6e-4ad8-a49d-3cd0c6ae35cb" />
+
+- Manzana (Berserk): Más velocidad, más daño, menos gasto de stamina
+<img width="400" alt="PowerUp2" src="https://github.com/user-attachments/assets/732fc221-5748-4561-bda9-8693434ee4ce" />
+<img width="400" alt="codigo" src="https://github.com/user-attachments/assets/77c938e8-5744-4905-9277-f6b1bd51cd66" />
+
+
+
 ### Video Demostrativo
 
 [Video Demostrativo en Drive Trabajo 4](https://drive.google.com/file/d/1daGzh4GE8FF2hIPgjV-qwr7Yj9B69pdm/view?usp=sharing)
