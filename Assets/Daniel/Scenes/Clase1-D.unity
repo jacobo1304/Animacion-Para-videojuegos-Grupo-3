@@ -1643,7 +1643,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1775720983}
-  _inputType: 1
+  _inputType: 0
 --- !u!1 &2013044620
 GameObject:
   m_ObjectHideFlags: 0
