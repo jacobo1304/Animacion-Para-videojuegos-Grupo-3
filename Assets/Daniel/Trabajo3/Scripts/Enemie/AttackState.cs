@@ -13,8 +13,9 @@ namespace Clases.Clase_8.Scripts.States
         private ComboExecutor _executor;
         private float _cooldownTimer;
 
-
-        private float _reattackCooldown = 1.0f;
+        private const float ReattackCooldown = 3.0f;
+        private const float AttackRange = 2.0f;
+        private const float ChaseRange = 2.6f;
 
         public AttackState(EnemyAI enemy, ComboSequence combo) : base(enemy)
         {
@@ -26,6 +27,7 @@ namespace Clases.Clase_8.Scripts.States
             _agent = enemy.agent;
             _agent.isStopped = true;
             _agent.ResetPath();
+            enemy.SetAttacking(true);
 
             _executor = enemy.GetComponentInChildren<ComboExecutor>(includeInactive: true);
             if (_executor == null)
@@ -42,6 +44,13 @@ namespace Clases.Clase_8.Scripts.States
             }
 
             _cooldownTimer = 0f;
+            if (!enemy.CanAttack())
+            {
+                enemy.ChangeState(new ChaseState(enemy));
+                return;
+            }
+
+            enemy.MarkAttack();
             _executor.PlayCombo(_combo);
         }
 
@@ -63,22 +72,26 @@ namespace Clases.Clase_8.Scripts.States
                 enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, look, enemy.rotationSmooth * Time.deltaTime);
             }
 
-            if(!enemy.PlayerInRange(3.0f))
+            float dist = Vector3.Distance(enemy.transform.position, enemy.player.position);
+            if (dist > ChaseRange)
             {
                 _executor?.Cancel();
                 enemy.ChangeState(new ChaseState(enemy));
-                return; 
+                return;
             }
 
-            if(!_executor.IsBusy())
+            if (!_executor.IsBusy())
             {
                 _cooldownTimer += Time.deltaTime;
-                if(_cooldownTimer >= _reattackCooldown && enemy.PlayerInRange(2.2f))
+                bool canAttackAgain = _cooldownTimer >= ReattackCooldown && enemy.CanAttack();
+
+                if (dist <= AttackRange && canAttackAgain)
                 {
                     _cooldownTimer = 0f;
+                    enemy.MarkAttack();
                     _executor.PlayCombo(_combo);
                 }
-                else if (!enemy.PlayerInRange(2.0f))
+                else if (dist > AttackRange)
                 {
                     _executor?.Cancel();
                     enemy.ChangeState(new ChaseState(enemy));
@@ -94,6 +107,7 @@ namespace Clases.Clase_8.Scripts.States
                 _agent.isStopped = false;
             }
             _executor?.Cancel();
+            enemy.SetAttacking(false);
         }
     }
 }

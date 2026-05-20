@@ -28,7 +28,7 @@ public class ChaseState : State
             return;
         }
         float dist = Vector3.Distance(enemy.transform.position, enemy.player.position);
-        if (dist <= ATTACK_RANGE)
+        if (dist <= ATTACK_RANGE && enemy.CanAttack())
         {
             enemy.ChangeState(new AttackState(enemy, enemy.defaultCombo));
             return;

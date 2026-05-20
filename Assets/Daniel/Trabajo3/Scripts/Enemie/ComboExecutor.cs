@@ -13,9 +13,11 @@ namespace Clases.Clase_8.Scripts
         [SerializeField] [Range(0f, 0.99f)] private float exit = 0.93f;
         [SerializeField] [Range(0.01f, 0.1f)] private float pulseEvery = 0.02f;
         [SerializeField] private int attackLayerIndex = 0;
+        [SerializeField] private float comboStepCooldown = 1.0f;
 
         private bool _isRunning;
         private Coroutine _routine;
+        private float _nextTriggerAt;
 
         public bool IsBusy() => _isRunning;
 
@@ -47,6 +49,7 @@ namespace Clases.Clase_8.Scripts
             {
                 animator.ResetTrigger(singleTrigger);
                 animator.SetTrigger(singleTrigger);
+                _nextTriggerAt = Time.time + comboStepCooldown;
 
                 for (int i = 0; i < stepsCount; i++)
                 {
@@ -64,11 +67,12 @@ namespace Clases.Clase_8.Scripts
                             if (cw > chainThreshold)
                             {
                                 pulseTimer += Time.deltaTime;
-                                if (pulseTimer >= pulseEvery)
+                                if (pulseTimer >= pulseEvery && Time.time >= _nextTriggerAt)
                                 {
                                     animator.ResetTrigger(singleTrigger);
                                     animator.SetTrigger(singleTrigger);
                                     pulseTimer = 0f;
+                                    _nextTriggerAt = Time.time + comboStepCooldown;
                                 }
                             }
                             else

@@ -17,9 +17,15 @@ public class EnemyAI : MonoBehaviour
     public float runSpeed = 3.5f;
     public float rotationSmooth = 12f;
     public float animSmooth = 10f;
+    [SerializeField] private string moveTrigger = "Move";
+    [SerializeField] private string attackTrigger = "Attack";
+    [SerializeField] private float moveTriggerSpeed = 0.1f;
+    [SerializeField] private float attackCooldown = 1.0f;
 
 
     private int waypointIndex = 0;
+    private bool isAttacking;
+    private float lastAttackAt = -999f;
 
     public ComboSequence defaultCombo;
 
@@ -63,6 +69,30 @@ public class EnemyAI : MonoBehaviour
 
          animator.SetFloat(id:Hash.SpeedX, curX);
          animator.SetFloat(id:Hash.SpeedY, curY);
+
+         if (!isAttacking && agent.velocity.magnitude > moveTriggerSpeed)
+         {
+             animator.SetTrigger(moveTrigger);
+         }
+    }
+
+    public void SetAttacking(bool value)
+    {
+        isAttacking = value;
+        if (!value && animator != null)
+        {
+            animator.ResetTrigger(attackTrigger);
+        }
+    }
+
+    public bool CanAttack()
+    {
+        return Time.time - lastAttackAt >= attackCooldown;
+    }
+
+    public void MarkAttack()
+    {
+        lastAttackAt = Time.time;
     }
 
     public void ChangeState(State newState = null)
