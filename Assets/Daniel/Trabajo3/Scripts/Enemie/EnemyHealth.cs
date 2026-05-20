@@ -1,9 +1,13 @@
 using UnityEngine;
+using System;
 
 public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] private float startHealth = 100f;
     [SerializeField] private float currentHealth = 100f;
+    private bool hasDied;
+
+    public event Action<EnemyHealth> OnDeath;
 
     public float StartHealth => startHealth;
     public float CurrentHealth => currentHealth;
@@ -31,5 +35,11 @@ public class EnemyHealth : MonoBehaviour
 
         currentHealth -= Mathf.Max(0f, amount);
         died = currentHealth <= 0f;
+
+        if (died && !hasDied)
+        {
+            hasDied = true;
+            OnDeath?.Invoke(this);
+        }
     }
 }
