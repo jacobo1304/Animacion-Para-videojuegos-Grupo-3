@@ -508,7 +508,7 @@ MonoBehaviour:
   moveTrigger: Move
   attackTrigger: Attack
   moveTriggerSpeed: 0.1
-  attackCooldown: 2
+  attackCooldown: 2.5
   defaultCombo: {fileID: 11400000, guid: 4d4713702c9455744a6ecef54026c889, type: 2}
 --- !u!136 &74221953906047477
 CapsuleCollider:
@@ -2425,10 +2425,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageMessage:
     sender: {fileID: 8127826772373873192}
-    amount: 30
+    amount: 20
     damageLevel: 0
   senderOverride: {fileID: 8127826772373873192}
-  powerUpManager: {fileID: 0}
 --- !u!1001 &111315925594216974
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2645,7 +2644,7 @@ MonoBehaviour:
   exit: 0.93
   pulseEvery: 0.02
   attackLayerIndex: 0
-  comboStepCooldown: 5
+  comboStepCooldown: 4
 --- !u!114 &597479910502150467
 MonoBehaviour:
   m_ObjectHideFlags: 0
