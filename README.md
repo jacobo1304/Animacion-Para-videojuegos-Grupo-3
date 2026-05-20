@@ -261,6 +261,24 @@ Unequip → Mano izquierda → Holder de espalda
 <details>
 <summary>Trabajo4</summary>
 
+### Controles.
+
+WASD → Movimiento del personaje.
+Mover Camara → Por medio de ataques
+Click izquierdo → Ataque ligero.
+Click derecho → Ataque pesado.
+
+### Tipos de enemigos.
+
+- Katanaman (Katana)
+   - Rapido
+   - Baja vida
+   - Ataques Consecutivos
+- Guts (Espada Larga)
+   - Lento
+   - Mucha vida
+   - Ataques lentos pero fuertes
+
 ### Video Demostrativo
 
 [Video Demostrativo en Drive Trabajo 4](https://drive.google.com/file/d/1daGzh4GE8FF2hIPgjV-qwr7Yj9B69pdm/view?usp=sharing)
