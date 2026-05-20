@@ -5,7 +5,7 @@ namespace Clases.scripts
 {
     public class EnemyInput : ICharacterInput
     {
-       public float GetSpeetInput()
+       public float GetSpeedInput()
         {
             return new Vector2(
                 UnityEngine.Input.GetAxis("Horizontal"),

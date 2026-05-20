@@ -21,12 +21,14 @@ public class CharacterState : MonoBehaviour
 
     public event Action OnDeath;
     private bool _deathInvoked;
+    private PowerUpManager powerUpManager;
 
 
     private void Start()
     {
         _currentStamina = _startStamina;
         _currentHealth = _startHealth;
+        powerUpManager = GetComponentInParent<PowerUpManager>();
         
     }
 
@@ -42,12 +44,15 @@ public class CharacterState : MonoBehaviour
 
     public bool DepleteStamina(float staminaDepletion)
     {
-        if (CurrentStamina < staminaDepletion)
+        float multiplier = powerUpManager != null ? powerUpManager.GetStaminaCostMultiplier() : 1f;
+        float finalCost = staminaDepletion * Mathf.Max(0f, multiplier);
+
+        if (CurrentStamina < finalCost)
         {
             return false;
         }
 
-        _currentStamina = Mathf.Max(0f, CurrentStamina - staminaDepletion);
+        _currentStamina = Mathf.Max(0f, CurrentStamina - finalCost);
         return true;
     }
     public void DepleteHealth(float healthDepletion, out bool zeroHealth)

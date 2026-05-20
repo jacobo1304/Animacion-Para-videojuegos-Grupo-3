@@ -5,6 +5,7 @@ public class AttackHitbox : MonoBehaviour, IDamageSender<DamageMessage>
 {
     [SerializeField] private DamageMessage damageMessage;
     [SerializeField] private GameObject senderOverride;
+    private PowerUpManager powerUpManager;
 
     private void Awake()
     {
@@ -12,6 +13,7 @@ public class AttackHitbox : MonoBehaviour, IDamageSender<DamageMessage>
         {
             senderOverride = transform.root.gameObject;
         }
+        powerUpManager = GetComponentInParent<PowerUpManager>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -24,9 +26,12 @@ public class AttackHitbox : MonoBehaviour, IDamageSender<DamageMessage>
 
     public void SendDamage(IDamageReceiver<DamageMessage> receiver)
     {
-        damageMessage.sender = senderOverride != null ? senderOverride : transform.root.gameObject;
-        receiver.ReceiveDamage(damageMessage);
-        float extra = 0.02f*(int)damageMessage.damageLevel;
+        DamageMessage msg = damageMessage;
+        msg.sender = senderOverride != null ? senderOverride : transform.root.gameObject;
+        float damageMultiplier = powerUpManager != null ? powerUpManager.GetDamageMultiplier() : 1f;
+        msg.amount *= Mathf.Max(0f, damageMultiplier);
+        receiver.ReceiveDamage(msg);
+        float extra = 0.02f * (int)msg.damageLevel;
         GetComponent<HitStopper>()?.HitStop(duration:0.02f+extra);
     }
 

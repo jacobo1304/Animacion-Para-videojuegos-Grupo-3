@@ -17,7 +17,7 @@ namespace Clases.scripts
         }
         private void Update()
         {
-            float speed = _input.GetSpeetInput();
+            float speed = _input.GetSpeedInput();
             _characterAnimator.UpdateSpeed(speed);
 
             if (UnityEngine.Input.GetKeyDown(KeyCode.Q))
