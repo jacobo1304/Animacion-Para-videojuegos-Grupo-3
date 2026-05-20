@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 
 public class CharacterState : MonoBehaviour
@@ -16,6 +17,10 @@ public class CharacterState : MonoBehaviour
     public float CurrentHealth => _currentHealth;
     public float StartStamina => _startStamina;
     public float StartHealth => _startHealth;
+    public bool IsDead => _currentHealth <= 0f;
+
+    public event Action OnDeath;
+    private bool _deathInvoked;
 
 
     private void Start()
@@ -47,11 +52,22 @@ public class CharacterState : MonoBehaviour
     }
     public void DepleteHealth(float healthDepletion, out bool zeroHealth)
     {
+        if (IsDead)
+        {
+            zeroHealth = true;
+            return;
+        }
+
         _currentHealth = Mathf.Max(0f, _currentHealth - healthDepletion);
         zeroHealth = false;
         if (_currentHealth <= 0)
         {
             zeroHealth = true;
+            if (!_deathInvoked)
+            {
+                _deathInvoked = true;
+                OnDeath?.Invoke();
+            }
         }
        
     }
