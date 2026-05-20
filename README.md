@@ -255,3 +255,16 @@ Unequip → Mano izquierda → Holder de espalda
 ---
 
 </details> 
+
+## Trabajo4
+
+<details>
+<summary>Trabajo4</summary>
+
+### Video Demostrativo
+
+[Video Demostrativo en Drive Trabajo 4](https://drive.google.com/file/d/1daGzh4GE8FF2hIPgjV-qwr7Yj9B69pdm/view?usp=sharing)
+
+<img width="500" src="https://github.com/user-attachments/assets/e3647cb6-decf-4df0-81b7-71ea78325bbf" />
+
+
