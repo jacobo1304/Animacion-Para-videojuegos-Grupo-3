@@ -11,9 +11,16 @@ public class EnemyDamageController : MonoBehaviour
     [SerializeField] private string damageDirectionParam = "DamageDirection";
     [SerializeField] private string damageLevelParam = "DamageLevel";
     [SerializeField] private float hitPointOffset = 0.3f;
+    [SerializeField] private float deathShrinkDelay = 0.4f;
+    [SerializeField] private float deathShrinkDuration = 0.6f;
+    [SerializeField] private Vector3 deathScaleTarget = Vector3.zero;
+    [SerializeField] private Transform deathScaleRoot;
+    [SerializeField] private GameObject deathDisableTarget;
 
     private readonly List<DamageMessage> damageList = new List<DamageMessage>();
     private Vector3 lastHitPoint;
+    private bool isDying;
+    private Coroutine deathRoutine;
 
     private void Awake()
     {
@@ -25,6 +32,16 @@ public class EnemyDamageController : MonoBehaviour
         if (health == null)
         {
             health = GetComponent<EnemyHealth>();
+        }
+
+        if (deathScaleRoot == null)
+        {
+            deathScaleRoot = animator != null ? animator.transform : transform;
+        }
+
+        if (deathDisableTarget == null)
+        {
+            deathDisableTarget = gameObject;
         }
     }
 
@@ -80,6 +97,7 @@ public class EnemyDamageController : MonoBehaviour
         {
             animator.ResetTrigger(damageTrigger);
             animator.SetTrigger(dieTrigger);
+            BeginDeathSequence();
         }
 
         if (damageList[0].sender != null)
@@ -99,5 +117,45 @@ public class EnemyDamageController : MonoBehaviour
     public void IFrameEnd()
     {
         ignoreDamage = false;
+    }
+
+    private void BeginDeathSequence()
+    {
+        if (isDying)
+        {
+            return;
+        }
+
+        isDying = true;
+        if (deathRoutine != null)
+        {
+            StopCoroutine(deathRoutine);
+        }
+
+        deathRoutine = StartCoroutine(ScaleDownAndDisable());
+    }
+
+    private System.Collections.IEnumerator ScaleDownAndDisable()
+    {
+        if (deathShrinkDelay > 0f)
+        {
+            yield return new WaitForSeconds(deathShrinkDelay);
+        }
+
+        Transform root = deathScaleRoot != null ? deathScaleRoot : transform;
+        Vector3 startScale = root.localScale;
+        float duration = Mathf.Max(0.01f, deathShrinkDuration);
+        float t = 0f;
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float lerp = Mathf.Clamp01(t / duration);
+            root.localScale = Vector3.Lerp(startScale, deathScaleTarget, lerp);
+            yield return null;
+        }
+
+        root.localScale = deathScaleTarget;
+        deathDisableTarget.SetActive(false);
     }
 }

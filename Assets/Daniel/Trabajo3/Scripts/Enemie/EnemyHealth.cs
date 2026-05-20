@@ -5,6 +5,7 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private float startHealth = 100f;
     [SerializeField] private float currentHealth = 100f;
 
+    public float StartHealth => startHealth;
     public float CurrentHealth => currentHealth;
     public bool IsDead => currentHealth <= 0f;
 
