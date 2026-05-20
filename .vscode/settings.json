@@ -66,5 +66,5 @@
     "explorer.fileNesting.patterns": {
         "*.sln": "*.csproj"
     },
-    "dotnet.defaultSolution": "Animacion-Para-videojuegos-Grupo-3.sln"
+    "dotnet.defaultSolution": "Animaci-n-Para-videojuegos-Grupo-3.sln"
 }
