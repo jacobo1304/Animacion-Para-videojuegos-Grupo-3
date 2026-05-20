@@ -14,11 +14,13 @@ using UnityEngine.Animations;
         private Animator animator;
         private Vector3 lastHitPoint;
         private Vector3 lastImpulse;
+        private PowerUpManager powerUpManager;
 
 
         private void Awake()
         {
             animator = GetComponent<Animator>();
+            powerUpManager = GetComponentInParent<PowerUpManager>();
         }
 
         public void EnqueueDamage(DamageMessage damage)
@@ -31,6 +33,15 @@ using UnityEngine.Animations;
 
         private void Update()
         {
+            if (powerUpManager != null && powerUpManager.IsInvulnerable())
+            {
+                if (damageList.Count > 0)
+                {
+                    damageList.Clear();
+                }
+                return;
+            }
+
             Vector3 damageDirection = Vector3.zero;
             int damageLevel = 0;
             bool isDead = false;

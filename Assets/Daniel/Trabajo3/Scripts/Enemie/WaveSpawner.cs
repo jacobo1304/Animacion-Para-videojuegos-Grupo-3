@@ -22,15 +22,29 @@ public class WaveSpawner : MonoBehaviour
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI waveText;
 
+    [Header("Power Ups")]
+    [SerializeField] private float powerUpSpawnChance = 1f;
+    [SerializeField] private Transform[] powerUpSpawnPoints;
+    [SerializeField] private List<PowerUpSpawnEntry> powerUpPrefabs = new List<PowerUpSpawnEntry>();
+
     private int currentWave = 1;
     private int currentWaveSize;
     private readonly List<EnemyHealth> aliveEnemies = new List<EnemyHealth>();
     private Coroutine waveRoutine;
+    private readonly Dictionary<PowerUpType, GameObject> activePowerUps = new Dictionary<PowerUpType, GameObject>();
+
+    [System.Serializable]
+    private class PowerUpSpawnEntry
+    {
+        public PowerUpType type;
+        public GameObject prefab;
+    }
 
     private void Start()
     {
         currentWaveSize = Mathf.Max(1, startWaveSize);
         UpdateWaveText();
+        TrySpawnPowerUp();
         waveRoutine = StartCoroutine(SpawnWave());
     }
 
@@ -120,6 +134,7 @@ public class WaveSpawner : MonoBehaviour
         currentWave++;
         currentWaveSize++;
         UpdateWaveText();
+        TrySpawnPowerUp();
 
         if (waveRoutine != null)
         {
@@ -133,6 +148,75 @@ public class WaveSpawner : MonoBehaviour
         if (waveText != null)
         {
             waveText.text = $"Oleada: {currentWave}";
+        }
+    }
+
+    private void TrySpawnPowerUp()
+    {
+        if (powerUpPrefabs == null || powerUpPrefabs.Count == 0)
+        {
+            return;
+        }
+
+        if (Random.value > Mathf.Clamp01(powerUpSpawnChance))
+        {
+            return;
+        }
+
+        CleanupDestroyedPowerUps();
+
+        List<PowerUpSpawnEntry> available = new List<PowerUpSpawnEntry>();
+        foreach (var entry in powerUpPrefabs)
+        {
+            if (entry == null || entry.prefab == null)
+            {
+                continue;
+            }
+
+            if (!activePowerUps.ContainsKey(entry.type) || activePowerUps[entry.type] == null)
+            {
+                available.Add(entry);
+            }
+        }
+
+        if (available.Count == 0)
+        {
+            return;
+        }
+
+        PowerUpSpawnEntry chosen = available[Random.Range(0, available.Count)];
+        Transform spawnPoint = GetPowerUpSpawnPoint();
+        Vector3 position = spawnPoint != null ? spawnPoint.position : transform.position;
+        Quaternion rotation = spawnPoint != null ? spawnPoint.rotation : transform.rotation;
+
+        GameObject instance = Instantiate(chosen.prefab, position, rotation);
+        activePowerUps[chosen.type] = instance;
+    }
+
+    private Transform GetPowerUpSpawnPoint()
+    {
+        if (powerUpSpawnPoints != null && powerUpSpawnPoints.Length > 0)
+        {
+            return powerUpSpawnPoints[Random.Range(0, powerUpSpawnPoints.Length)];
+        }
+
+        return GetSpawnPoint();
+    }
+
+    private void CleanupDestroyedPowerUps()
+    {
+        if (activePowerUps.Count == 0)
+        {
+            return;
+        }
+
+        var keys = new List<PowerUpType>(activePowerUps.Keys);
+        foreach (var key in keys)
+        {
+            if (activePowerUps[key] == null)
+            {
+                activePowerUps.Remove(key);
+            }
         }
     }
 }
