@@ -1027,7 +1027,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -49.00006, y: -44}
+  m_AnchoredPosition: {x: -49, y: -44}
   m_SizeDelta: {x: -666.611, y: -377.421}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &176272812
@@ -9197,10 +9197,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfef644fba63045409922d6c1c879697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverPanel: {fileID: 176272810}
-  componentsToDisable:
-  - {fileID: 1441828869}
-  hasGameOver: 0
 --- !u!4 &870432680
 Transform:
   m_ObjectHideFlags: 0
@@ -11661,7 +11657,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageMessage:
     sender: {fileID: 345080466}
-    amount: 30
+    amount: 25
     damageLevel: 0
   senderOverride: {fileID: 345080466}
 --- !u!136 &1160936557
@@ -12980,22 +12976,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d0122a3a1c45c242a326c3a9d2a49e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefabs:
-  - {fileID: 0}
-  - {fileID: 0}
-  spawnPoints:
-  - {fileID: 1953111090}
-  - {fileID: 407050692}
-  - {fileID: 689367636}
-  - {fileID: 2113979111}
-  - {fileID: 0}
-  startWaveSize: 2
-  minSpawnDelay: 1
-  maxSpawnDelay: 4
-  player: {fileID: 1441828868}
-  waveText: {fileID: 2130539264}
-  currentWave: 1
-  currentWaveSize: 0
 --- !u!4 &1424511060
 Transform:
   m_ObjectHideFlags: 0
